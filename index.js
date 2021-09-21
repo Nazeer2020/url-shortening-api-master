@@ -49,35 +49,21 @@ function creatingDiv(a){
 
 
 function getData(){
-    // const xhr = new XMLHttpRequest();
-    // const url = `https://rel.ink/api/links/?url=${prameter}`;
-    // xhr.responseType = "json";
-    // xhr.onreadystatechange = ()=>{
-    // if (xhr.readyState === 4 && xhr.status === 200) {
-    //    // Typical action to be performed when the document is ready:
-    //    console.log(xhr.response);
-    // } else {
-    //     console.log("Something went wrong");
-    // }
-    // }   ;
-    // xhr.open("GET", url, true);
-    // xhr.send();
+    const xhr = new XMLHttpRequest();
+    const url = `https://rel.ink/api/links/?url=${inputElement.value}`;
+    xhr.responseType = "json";
+    xhr.onreadystatechange = ()=>{
+    if (xhr.readyState === 4 && xhr.status === 200) {
+       // Typical action to be performed when the document is ready:
+       console.log(xhr.response);
+    } else {
+        console.log("Something went wrong");
+    }
+    }   ;
+    xhr.open("GET", url, true);
+    xhr.send();
 
-    // const xhr = new XMLHttpRequest();
-    // const url = "https://api.shrtco.de/v2/shorten";
-    // const params = `url=${prameter}`;
-    // xhr.open("POST", url, true);
-    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    // xhr.onreadystatechange = function() {//Call a function when the state changes.
-    //     if(xhr.readyState == 4 && xhr.status == 200) {
-    //         alert(xhr.response);
-    //     }
-    // }
-    // xhr.send(params);
-
-    fetch(`https://rel.ink/api/links/?url=${inputElement.value}`)
-  .then(response => response.json())
-  .then(data => console.log(data));
+    
 }
 
 
