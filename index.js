@@ -29,7 +29,7 @@ shortenBtn.addEventListener("click", ()=>{
 function creatingDiv(a){
 
     
-    getData(a)
+    getData()
     console.log(a);
     divElement.classList.add("row")
     divElement.classList.add("result__row")
@@ -48,7 +48,7 @@ function creatingDiv(a){
 }
 
 
-function getData(prameter){
+function getData(){
     // const xhr = new XMLHttpRequest();
     // const url = `https://rel.ink/api/links/?url=${prameter}`;
     // xhr.responseType = "json";
@@ -75,7 +75,7 @@ function getData(prameter){
     // }
     // xhr.send(params);
 
-    fetch(`https://rel.ink/api/links/?url=${prameter}`)
+    fetch(`https://rel.ink/api/links/?url=${inputElement.value}`)
   .then(response => response.json())
   .then(data => console.log(data));
 }
