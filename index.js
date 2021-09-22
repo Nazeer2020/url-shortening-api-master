@@ -6,65 +6,71 @@ const inputElement = document.querySelector("input");
 const shortenBtn = document.querySelector(".Shorten__btn");
 const sectionElement = document.querySelector(".container");
 const divElement = document.createElement("div");
-const resultBtn = document.querySelector(".result__btn");
 
 
+// showing mobile navigation menu
 
 barBtn.addEventListener("click", ()=>{
     mobileMenu.classList.toggle("show");
 })
 
+// calling the API function on shorten button
+
+
 shortenBtn.addEventListener("click", ()=>{
     console.log("I am clicked");
-   creatingDiv(inputElement.value) 
+   creatingDiv() 
     
 })
 
-// resultBtn.addEventListener("click", ()=>{
-//     console.log("I am clicked");
-//     resultBtn.style.backgroundColor  = "black";
-//     resultBtn.innerHTML = "copied !";
-// })
+// calling API and manipulating dom function
 
-function creatingDiv(a){
+function creatingDiv(){
 
-    
-    getData()
-    console.log(a);
-    divElement.classList.add("row")
-    divElement.classList.add("result__row")
-    divElement.innerHTML = `
-    <div class="col">
-    <p>${a}</p>
-    </div>
-    <hr>
-    <div class="col">
-    <p>${a}</p>
-    <a class="btn result__btn">copy</a>
-    </div>
-    `;
-    sectionElement.appendChild(divElement);
-    
-}
+        let copyText;
 
+        const xhr = new XMLHttpRequest();
+        const url = `https://api.shrtco.de/v2/shorten?url=${inputElement.value}`
+        xhr.responseType = "json";
+        xhr.open("GET", url, true);
+        xhr.onload = ()=>{
+        console.log(xhr.response);
+        divElement.classList.add("row")
+        divElement.classList.add("result__row")
+        divElement.innerHTML = `
+        <div class="col">
+        <p>${xhr.response.result.original_link}</p>
+        </div>
+        <hr>
+        <div class="col">
+        <p class="short__link">${xhr.response.result.full_short_link}</p>
+        <a class="btn result__btn">copy</a>
+        </div>
+        `;
+        sectionElement.appendChild(divElement);
 
-function getData(){
-    const xhr = new XMLHttpRequest();
-    const url = `https://rel.ink/api/links/?url=${inputElement.value}`;
-    xhr.responseType = "json";
-    xhr.onreadystatechange = ()=>{
-    if (xhr.readyState === 4 && xhr.status === 200) {
-       // Typical action to be performed when the document is ready:
-       console.log(xhr.response);
-    } else {
-        console.log("Something went wrong");
-    }
-    }   ;
-    xhr.open("GET", url, true);
-    xhr.send();
-
+        document.querySelector(".result__btn").addEventListener("click", ()=>{
+            document.querySelector(".result__btn").style.backgroundColor  = "black";
+            document.querySelector(".result__btn").innerHTML = "copied !";
+            copyText = document.querySelector(".short__link");
+            CopyMe(copyText.innerHTML)
+        })
+        }
+        
+        xhr.send();
     
 }
 
 
+// creating the copy text clipboard
 
+function CopyMe(TextToCopy) {
+    const TempText = document.createElement("input");
+    TempText.value = TextToCopy;
+    document.body.appendChild(TempText);
+    TempText.select();
+    
+    document.execCommand("copy");
+    document.body.removeChild(TempText);
+    
+  }
