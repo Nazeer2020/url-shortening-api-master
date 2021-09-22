@@ -184,6 +184,10 @@ section {
   padding: 150px 0 0 0;
 }
 
+.advanced__text h2 {
+  padding-top: 50px;
+}
+
 .prod__detail {
   background: #fff;
   margin: 30px 0;
