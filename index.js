@@ -5,7 +5,7 @@ const inputElement = document.querySelector("input");
 const shortenBtn = document.querySelector(".Shorten__btn");
 const sectionElement = document.querySelector(".container");
 
-
+const arr = [];
 
 
 
@@ -37,7 +37,8 @@ function creatingDiv(){
         xhr.onload = ()=>{
 
         console.log(xhr.response);
-
+        arr.push(xhr.response)
+        console.log(arr);
         const divElement = document.createElement("DIV");
         divElement.classList.add("row")
         divElement.classList.add("result__row")
@@ -53,7 +54,7 @@ function creatingDiv(){
         `;
         
         sectionElement.appendChild(divElement)
-        sessionStorage.setItem("myData", JSON.stringify(xhr.response));
+        sessionStorage.setItem("myData", JSON.stringify(arr));
        
         document.querySelector(".result__btn").addEventListener("click", ()=>{
             document.querySelector(".result__btn").style.backgroundColor  = "black";
@@ -84,22 +85,26 @@ function CopyMe(TextToCopy) {
 
   window.onload = ()=>{
     if(sessionStorage.getItem("myData") !== null){
-        const sessionStData = JSON.parse(sessionStorage.getItem("myData"))
+        const sessionStData = JSON.parse(sessionStorage.getItem("myData"));
         console.log(sessionStData);
+        sessionStData.forEach(element => {
         const divElement = document.createElement("DIV");
         divElement.classList.add("row")
         divElement.classList.add("result__row")
         divElement.innerHTML = `
         <div class="col">
-        <p>${sessionStData.result.original_link}</p>
+        <p>${element.result.original_link}</p>
         </div>
         <hr>
         <div class="col">
-        <p class="short__link">${sessionStData.result.full_short_link}</p>
+        <p class="short__link">${element.result.full_short_link}</p>
         <a class="btn result__btn">copy</a>
         </div>
         `;
         sectionElement.appendChild(divElement)
+        });
+        
+        
         
     } else {
         console.log("something went wrong");
