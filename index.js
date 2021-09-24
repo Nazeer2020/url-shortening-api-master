@@ -1,11 +1,12 @@
 "use strict";
-
 const barBtn = document.querySelector(".fa-bars");
 const mobileMenu = document.querySelector(".mob-menu");
 const inputElement = document.querySelector("input");
 const shortenBtn = document.querySelector(".Shorten__btn");
 const sectionElement = document.querySelector(".container");
-const divElement = document.createElement("div");
+
+
+
 
 
 // showing mobile navigation menu
@@ -34,7 +35,10 @@ function creatingDiv(){
         xhr.responseType = "json";
         xhr.open("GET", url, true);
         xhr.onload = ()=>{
+
         console.log(xhr.response);
+
+        const divElement = document.createElement("DIV");
         divElement.classList.add("row")
         divElement.classList.add("result__row")
         divElement.innerHTML = `
@@ -47,8 +51,10 @@ function creatingDiv(){
         <a class="btn result__btn">copy</a>
         </div>
         `;
-        sectionElement.appendChild(divElement);
-
+        
+        sectionElement.appendChild(divElement)
+        sessionStorage.setItem("myData", JSON.stringify(xhr.response));
+       
         document.querySelector(".result__btn").addEventListener("click", ()=>{
             document.querySelector(".result__btn").style.backgroundColor  = "black";
             document.querySelector(".result__btn").innerHTML = "copied !";
@@ -73,4 +79,29 @@ function CopyMe(TextToCopy) {
     document.execCommand("copy");
     document.body.removeChild(TempText);
     
+  }
+
+
+  window.onload = ()=>{
+    if(sessionStorage.getItem("myData") !== null){
+        const sessionStData = JSON.parse(sessionStorage.getItem("myData"))
+        console.log(sessionStData);
+        const divElement = document.createElement("DIV");
+        divElement.classList.add("row")
+        divElement.classList.add("result__row")
+        divElement.innerHTML = `
+        <div class="col">
+        <p>${sessionStData.result.original_link}</p>
+        </div>
+        <hr>
+        <div class="col">
+        <p class="short__link">${sessionStData.result.full_short_link}</p>
+        <a class="btn result__btn">copy</a>
+        </div>
+        `;
+        sectionElement.appendChild(divElement)
+        
+    } else {
+        console.log("something went wrong");
+    }
   }
